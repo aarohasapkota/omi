@@ -47,6 +47,7 @@ import 'package:omi/utils/analytics/growthbook.dart';
 import 'package:omi/utils/logger.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:omi/utils/platform/platform_service.dart';
+import 'package:omi/services/hotkey_service.dart';
 import 'package:opus_dart/opus_dart.dart';
 import 'package:opus_flutter/opus_flutter.dart' as opus_flutter;
 import 'package:posthog_flutter/posthog_flutter.dart';
@@ -176,11 +177,35 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     NotificationUtil.initializeNotificationsEventListeners();
     NotificationUtil.initializeIsolateReceivePort();
     WidgetsBinding.instance.addObserver(this);
+    
+    // Initialize hotkey service for desktop overlay
+    if (PlatformService.isDesktop) {
+      _initializeHotkeyService();
+    }
+    
     super.initState();
+  }
+
+  Future<void> _initializeHotkeyService() async {
+    // Add a delay to ensure Flutter is fully initialized
+    await Future.delayed(const Duration(milliseconds: 500));
+    
+    try {
+      await HotkeyService().initialize();
+      debugPrint('Hotkey service initialized successfully');
+    } catch (e) {
+      debugPrint('Failed to initialize hotkey service: $e');
+    }
   }
 
   void _deinit() {
     debugPrint("App > _deinit");
+    
+    // Clean up hotkey service
+    if (PlatformService.isDesktop) {
+      HotkeyService().dispose();
+    }
+    
     ServiceManager.instance().deinit();
   }
 

@@ -17,8 +17,11 @@ dependencies:
   flutter_provider_utilities: ^1.0.6
 
 
-  # Desktop
-  window_manager: 0.3.7
+  #for hot-keys
+  hotkey_manager: ^0.2.0  # For global hotkeys
+  window_manager: ^0.3.7  # Keep this version (newer)
+  screen_retriever: ^0.1.0  # For screen positioning
+
 
   # Localizations
   flutter_localizations:
