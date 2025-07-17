@@ -21,15 +21,19 @@ class OverlayService {
   void showOverlay() {
     if (_overlayEntry != null) return;
 
-    // Get the current context and show overlay
-    final context = MyApp.navigatorKey.currentContext;
-    if (context == null) {
-      print('Warning: Navigator context not available for overlay');
-      return;
-    }
-    
     try {
-      final overlay = Overlay.of(context);
+      // Get the overlay state directly from the navigator
+      final navigatorState = MyApp.navigatorKey.currentState;
+      if (navigatorState == null) {
+        print('Warning: Navigator state not available for overlay');
+        return;
+      }
+      
+      final overlayState = navigatorState.overlay;
+      if (overlayState == null) {
+        print('Warning: Overlay state not found');
+        return;
+      }
       
       _overlayEntry = OverlayEntry(
         builder: (context) => OverlayChatWidget(
@@ -37,7 +41,7 @@ class OverlayService {
         ),
       );
 
-      overlay.insert(_overlayEntry!);
+      overlayState.insert(_overlayEntry!);
       _isVisible = true;
     } catch (e) {
       print('Error showing overlay: $e');
