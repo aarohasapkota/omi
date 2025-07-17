@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Omi Desktop Chat",
+			"type": "shell",
+			"command": "xcodebuild",
+			"args": [
+				"-project",
+				"OmiDesktopChat.xcodeproj",
+				"-scheme",
+				"OmiDesktopChat",
+				"-configuration",
+				"Debug",
+				"build"
+			],
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

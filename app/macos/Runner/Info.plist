@@ -85,6 +85,8 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
+	<key>NSAccessibilityUsageDescription</key>
+	<string>Omi needs accessibility permissions to enable global hotkeys (Option+Space) for quick access to the chat interface. This allows you to quickly interact with Omi from anywhere on your Mac.</string>
 	<key>PermissionGroupNotification</key>
 	<string>You need to enable notifications to receive your pro-active feedback.</string>
 	<key>com.apple.security.app-sandbox</key>

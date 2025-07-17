@@ -8,6 +8,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:omi/services/devices.dart';
 import 'package:omi/services/sockets.dart';
 import 'package:omi/services/wals.dart';
+import 'package:omi/services/hotkey_service.dart';
 import 'package:flutter/services.dart';
 import 'package:omi/utils/platform/platform_service.dart';
 
@@ -17,6 +18,7 @@ class ServiceManager {
   late ISocketService _socket;
   late IWalService _wal;
   late ISystemAudioRecorderService _systemAudio;
+  late HotkeyService? _hotkey;
 
   static ServiceManager? _instance;
 
@@ -30,6 +32,9 @@ class ServiceManager {
     sm._wal = WalService();
     if (PlatformService.isDesktop) {
       sm._systemAudio = DesktopSystemAudioRecorderService();
+    }
+    if (PlatformService.isMacOS) {
+      sm._hotkey = HotkeyService.instance;
     }
 
     return sm;
@@ -58,6 +63,13 @@ class ServiceManager {
     return _systemAudio;
   }
 
+  HotkeyService? get hotkey {
+    if (!PlatformService.isMacOS) {
+      return null;
+    }
+    return _hotkey;
+  }
+
   static void init() {
     if (_instance != null) {
       throw Exception("Service manager is initiated");
@@ -71,6 +83,9 @@ class ServiceManager {
     if (Platform.isMacOS) {
       // TODO: Decide if system audio should start automatically or be user-initiated
       // await _systemAudio.start();
+      
+      // Initialize hotkey service
+      await _hotkey?.initialize();
     }
   }
 
@@ -80,6 +95,7 @@ class ServiceManager {
     _device.stop();
     if (Platform.isMacOS) {
       _systemAudio.stop();
+      _hotkey?.dispose();
     }
   }
 }
