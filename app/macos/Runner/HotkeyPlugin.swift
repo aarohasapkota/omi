@@ -8,26 +8,20 @@ class HotkeyPlugin: NSObject, FlutterPlugin {
     private var methodChannel: FlutterMethodChannel?
     
     static func register(with registrar: FlutterPluginRegistrar) {
-        print("🔌 HotkeyPlugin.register() called")
         let channel = FlutterMethodChannel(name: "omi/hotkey", binaryMessenger: registrar.messenger)
         let instance = HotkeyPlugin()
         instance.methodChannel = channel
         registrar.addMethodCallDelegate(instance, channel: channel)
         
         // Initialize the global hotkey
-        print("🔌 About to initialize hotkey...")
         instance.initializeHotkey()
-        print("🔌 HotkeyPlugin registration complete")
     }
     
     private func initializeHotkey() {
-        print("🔑 Initializing GlobalHotKey...")
         globalHotKey = GlobalHotKey(methodChannel: methodChannel)
         globalHotKey?.onActivation = { [weak self] in
-            print("🎯 Hotkey activation callback triggered!")
             self?.toggleChatWindow()
         }
-        print("🔑 GlobalHotKey initialization complete")
     }
     
     func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {

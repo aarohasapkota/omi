@@ -18,10 +18,8 @@ class GlobalHotKey: ObservableObject {
     
     init(methodChannel: FlutterMethodChannel? = nil) {
         self.methodChannel = methodChannel
-        print("🚀 GlobalHotKey initializing...")
         checkInputMonitoringPermission()
         registerHotKey()
-        print("🚀 GlobalHotKey initialization complete")
     }
     
     deinit {

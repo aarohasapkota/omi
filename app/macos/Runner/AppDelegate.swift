@@ -3,6 +3,7 @@ import FlutterMacOS
 
 @main
 class AppDelegate: FlutterAppDelegate {
+  private var hotkeyPlugin: HotkeyPlugin?
 
   override func applicationDidFinishLaunching(_ aNotification: Notification) {
     super.applicationDidFinishLaunching(aNotification)
@@ -11,5 +12,6 @@ class AppDelegate: FlutterAppDelegate {
     let controller = mainFlutterWindow?.contentViewController as! FlutterViewController
     let registrar = controller.registrar(forPlugin: "HotkeyPlugin")
     HotkeyPlugin.register(with: registrar)
+    hotkeyPlugin = HotkeyPlugin()
   }
 }
