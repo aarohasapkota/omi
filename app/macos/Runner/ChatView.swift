@@ -209,3 +209,12 @@ struct ChatMessage: Identifiable, Equatable {
     let isUser: Bool
     let timestamp: Date
 }
+
+
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView(methodChannel: nil, onDismiss: nil)
+            .background(Color.black)
+            .previewLayout(.sizeThatFits)
+    }
+}
